@@ -10,6 +10,12 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 // Create and start the application
 const app = new App(PORT);
 
+// Start the application
+app.listen().catch((error) => {
+  console.error('Failed to start application:', error);
+  process.exit(1);
+});
+
 // Handle graceful shutdown
 process.on('SIGTERM', () => {
   console.log('🛑 SIGTERM received. Shutting down gracefully...');
@@ -34,6 +40,4 @@ process.on('unhandledRejection', (reason: unknown, promise: Promise<unknown>) =>
 });
 
 // Start the server
-app.listen();
-
 export default app;

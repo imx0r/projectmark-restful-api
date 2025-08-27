@@ -1,49 +1,42 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import { errorHandler } from './middleware/errorHandler';
-import { notFoundHandler } from './middleware/notFoundHandler';
-import topicRoutes from './routes/topicRoutes';
-import resourceRoutes from './routes/resourceRoutes';
-import userRoutes from './routes/userRoutes';
+import dotenv from 'dotenv';
+import App from './app';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+// Load environment variables
+dotenv.config();
 
-// Security middleware
-app.use(helmet());
-app.use(cors());
+// Get port from environment or use default
+const PORT = parseInt(process.env.PORT || '3000', 10);
 
-// Logging middleware
-app.use(morgan('combined'));
+// Create and start the application
+const app = new App(PORT);
 
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
-
-// Health check endpoint
-app.get('/health', (_req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    timestamp: new Date().toISOString(),
-    service: 'Dynamic Knowledge Base API'
-  });
+// Start the application
+app.listen().catch((error) => {
+  console.error('Failed to start application:', error);
+  process.exit(1);
 });
 
-// API routes
-app.use('/api/topics', topicRoutes);
-app.use('/api/resources', resourceRoutes);
-app.use('/api/users', userRoutes);
+// Handle graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🛑 SIGTERM received. Shutting down gracefully...');
+  process.exit(0);
+});
 
-// Error handling middleware
-app.use(notFoundHandler);
-app.use(errorHandler);
+process.on('SIGINT', () => {
+  console.log('🛑 SIGINT received. Shutting down gracefully...');
+  process.exit(0);
+});
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Dynamic Knowledge Base API is running on port ${PORT}`);
-  console.log(`📊 Health check available at http://localhost:${PORT}/health`);
+// Handle uncaught exceptions
+process.on('uncaughtException', (error: Error) => {
+  console.error('💥 Uncaught Exception:', error);
+  process.exit(1);
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason: unknown, promise: Promise<unknown>) => {
+  console.error('💥 Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
 });
 
 export default app;
