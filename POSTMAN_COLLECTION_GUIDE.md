@@ -94,8 +94,8 @@ Associate resources with topics using topicId.
 - **Find Shortest Path**: `GET /api/topics/path/{{fromTopicId}}/{{toTopicId}}`
 
 #### Search and Statistics
-- **Search Topics**: `GET /api/topics/search?query={{searchQuery}}`
-- **Get Statistics**: `GET /api/topics/stats`
+- **Search Topics**: `GET /api/topics/?query={{searchQuery}}`
+- **Get Statistics**: `GET /api/topics/statistics`
 - **Validate Hierarchy**: `GET /api/topics/validate`
 
 ### Step 4: Test Permissions

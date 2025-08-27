@@ -140,16 +140,6 @@ GET /api/topics
 GET /api/topics/:id
 ```
 
-#### Get Topic with Recursive Subtopics
-```bash
-GET /api/topics/:id/recursive
-```
-
-#### Get Topic Version
-```bash
-GET /api/topics/:id/versions/:version
-```
-
 #### Create Topic
 ```bash
 POST /api/topics
@@ -176,6 +166,36 @@ Content-Type: application/json
 #### Delete Topic
 ```bash
 DELETE /api/topics/:id
+```
+
+#### Search Topics
+```bash
+GET /api/topics/?query=keyword
+```
+
+#### Get Root Topics
+```bash
+GET /api/topics/root
+```
+
+#### Get Topic Version
+```bash
+GET /api/topics/:id/versions/:version
+```
+
+#### Get Topic with Recursive Subtopics
+```bash
+GET /api/topics/:id/tree
+```
+
+#### Validate Topic Hierarchy
+```bash
+GET /api/topics/validate
+```
+
+#### Get Topics Statistics
+```bash
+GET /api/topics/statistics
 ```
 
 #### Find Shortest Path Between Topics
@@ -275,7 +295,7 @@ npm run test:coverage
 
 A comprehensive Postman collection is included for manual API testing:
 
-- **File**: `Dynamic_Knowledge_Base_API.postman_collection.json`
+- **File**: `api.postman_collection.json`
 - **Guide**: See [POSTMAN_COLLECTION_GUIDE.md](./POSTMAN_COLLECTION_GUIDE.md) for detailed usage instructions
 - **Coverage**: All endpoints including CRUD operations, versioning, hierarchy management, and permissions
 
@@ -342,6 +362,8 @@ GET /api/topics/topic1-id/path/topic2-id
 ```
 
 ## 🚀 Production Considerations
+
+What I would do if this project was a real production project:
 
 ### For Production Deployment
 1. **Replace In-Memory Database**: Use PostgreSQL, MongoDB, or similar
