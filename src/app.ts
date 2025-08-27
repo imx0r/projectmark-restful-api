@@ -2,6 +2,8 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import { specs as swaggerSpec } from './config/swagger';
 import topicRoutes from './routes/topicRoutes';
 import resourceRoutes from './routes/resourceRoutes';
 import userRoutes from './routes/userRoutes';
@@ -61,6 +63,12 @@ class App {
       });
     });
 
+    // Swagger documentation
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+      customCss: '.swagger-ui .topbar { display: none }',
+      customSiteTitle: 'Dynamic Knowledge Base API Documentation'
+    }));
+
     // API routes
     this.app.use('/api/topics', topicRoutes);
     this.app.use('/api/resources', resourceRoutes);
@@ -77,7 +85,7 @@ class App {
           users: '/api/users',
           health: '/health'
         },
-        documentation: 'https://github.com/your-repo/api-docs'
+        documentation: '/docs'
       });
     });
 
@@ -152,7 +160,7 @@ class App {
         console.log(`🚀 Dynamic Knowledge Base API is running on port ${this.port}`);
         console.log(`📚 Environment: ${process.env.NODE_ENV || 'development'}`);
         console.log(`🔗 Health check: http://localhost:${this.port}/health`);
-        console.log(`📖 API docs: http://localhost:${this.port}/api`);
+        console.log(`📖 API docs: http://localhost:${this.port}/docs`);
         resolve();
       });
     });
