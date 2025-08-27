@@ -85,7 +85,7 @@ describe('Integration Tests', () => {
           .send({ name: 'Python Basics', content: 'Python content' });
 
         const response = await request(server)
-          .get('/api/topics?search=JavaScript')
+          .get('/api/topics?query=Script')
           .expect(200);
 
         expect(response.body.success).toBe(true);
