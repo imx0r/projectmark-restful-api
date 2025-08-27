@@ -118,9 +118,9 @@ curl -H "x-user-id: user-id-here" http://localhost:3000/api/topics
 
 ## 📚 API Documentation
 
-### Base URL
+### Base URL (Root)
 ```
-http://localhost:3000/api
+http://localhost:3000
 ```
 
 ### Health Check
