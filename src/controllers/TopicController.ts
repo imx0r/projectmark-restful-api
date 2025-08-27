@@ -95,7 +95,6 @@ export class TopicController {
    * Gets all topics
    */
   async getAllTopics(req: Request, res: Response): Promise<void> {
-    console.log(`getAllTopics`)
     try {
       const { query, parentId } = req.query;
       let topics: Topic[];
@@ -198,7 +197,6 @@ export class TopicController {
    * Gets all versions of a topic
    */
   async getTopicVersions(req: Request, res: Response): Promise<void> {
-    console.log(`Topic Versions`)
     try {
       const { id } = req.params;
       const versions = await this.topicService.getVersions(id);
@@ -221,7 +219,6 @@ export class TopicController {
    * Gets a specific version of a topic
    */
   async getTopicVersion(req: Request, res: Response): Promise<void> {
-    console.log(`Topic Version`)
     try {
       const { id, version } = req.params;
       const versionNumber = parseInt(version, 10);
