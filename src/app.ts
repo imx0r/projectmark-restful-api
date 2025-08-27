@@ -6,6 +6,7 @@ import topicRoutes from './routes/topicRoutes';
 import resourceRoutes from './routes/resourceRoutes';
 import userRoutes from './routes/userRoutes';
 import { AppError } from './types/errors';
+import { initializeSampleData } from './utils/seedData';
 
 class App {
   public app: Application;
@@ -142,13 +143,30 @@ class App {
     });
   }
 
-  public listen(): void {
-    this.app.listen(this.port, () => {
-      console.log(`🚀 Dynamic Knowledge Base API is running on port ${this.port}`);
-      console.log(`📚 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Health check: http://localhost:${this.port}/health`);
-      console.log(`📖 API docs: http://localhost:${this.port}/api`);
+  public async listen(): Promise<void> {
+    // Initialize database with sample data before starting server
+    await this.initializeDatabase();
+    
+    return new Promise((resolve) => {
+      this.app.listen(this.port, () => {
+        console.log(`🚀 Dynamic Knowledge Base API is running on port ${this.port}`);
+        console.log(`📚 Environment: ${process.env.NODE_ENV || 'development'}`);
+        console.log(`🔗 Health check: http://localhost:${this.port}/health`);
+        console.log(`📖 API docs: http://localhost:${this.port}/api`);
+        resolve();
+      });
     });
+  }
+
+  /**
+   * Initialize database with sample data
+   */
+  private async initializeDatabase(): Promise<void> {
+    try {
+      await initializeSampleData();
+    } catch (error) {
+      console.error('Failed to initialize sample data:', error);
+    }
   }
 
   public getApp(): Application {
