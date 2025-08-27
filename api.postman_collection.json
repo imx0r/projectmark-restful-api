@@ -256,9 +256,9 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/topics/search?query={{searchQuery}}",
+              "raw": "{{baseUrl}}/api/topics?query={{searchQuery}}",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "topics", "search"],
+              "path": ["api", "topics"],
               "query": [
                 {
                   "key": "query",
@@ -433,6 +433,222 @@
             },
             "description": "Get all resources associated with a specific topic"
           }
+        },
+        {
+          "name": "Get Resources by Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/type/{{resourceType}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "type", "{{resourceType}}"]
+            },
+            "description": "Get all resources of a specific type"
+          }
+        },
+        {
+          "name": "Search Resources by URL",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/search?pattern={{urlPattern}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "search"],
+              "query": [
+                {
+                  "key": "pattern",
+                  "value": "{{urlPattern}}"
+                }
+              ]
+            },
+            "description": "Search resources by URL pattern"
+          }
+        },
+        {
+          "name": "Get Resource Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/statistics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "statistics"]
+            },
+            "description": "Get statistics about resources"
+          }
+        },
+        {
+          "name": "Get Resources Grouped by Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/grouped",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "grouped"]
+            },
+            "description": "Get resources grouped by type"
+          }
+        },
+        {
+          "name": "Validate All Resources",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "validate"]
+            },
+            "description": "Validate all resources for accessibility and URL validity"
+          }
+        },
+        {
+          "name": "Validate URL",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/validate-url",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "validate-url"]
+            },
+            "description": "Validate a URL for accessibility"
+          }
+        },
+        {
+          "name": "Check Resource Accessibility",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/{{resourceId}}/accessibility",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "{{resourceId}}", "accessibility"]
+            },
+            "description": "Check accessibility of a specific resource"
+          }
+        },
+        {
+          "name": "Bulk Create Resources",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resources\": [\n    {\n      \"topicId\": \"{{topicId}}\",\n      \"url\": \"https://example1.com\",\n      \"description\": \"Example Resource 1\",\n      \"type\": \"article\"\n    },\n    {\n      \"topicId\": \"{{topicId}}\",\n      \"url\": \"https://example2.com\",\n      \"description\": \"Example Resource 2\",\n      \"type\": \"video\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "bulk"]
+            },
+            "description": "Create multiple resources at once"
+          }
+        },
+        {
+          "name": "Export Resources",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/export?format={{exportFormat}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "export"],
+              "query": [
+                {
+                  "key": "format",
+                  "value": "{{exportFormat}}"
+                }
+              ]
+            },
+            "description": "Export resources in specified format (json, csv)"
+          }
+        },
+        {
+          "name": "Import Resources",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resources\": [\n    {\n      \"topicId\": \"{{topicId}}\",\n      \"url\": \"https://imported-example.com\",\n      \"description\": \"Imported Resource\",\n      \"type\": \"article\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/import",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "import"]
+            },
+            "description": "Import resources from external data"
+          }
         }
       ]
     },
@@ -544,6 +760,256 @@
             },
             "description": "Delete a user (Admin only)"
           }
+        },
+        {
+          "name": "Get User Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/statistics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "statistics"]
+            },
+            "description": "Get user statistics (Admin only)"
+          }
+        },
+        {
+          "name": "Authenticate User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/authenticate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "authenticate"]
+            },
+            "description": "Authenticate a user with email and password"
+          }
+        },
+        {
+          "name": "Get Users by Role",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/role/{{userRole}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "role", "{{userRole}}"]
+            },
+            "description": "Get all users with a specific role (Admin only)"
+          }
+        },
+        {
+          "name": "Change User Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newRole\": \"Editor\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}/role",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}", "role"]
+            },
+            "description": "Change a user's role (Admin only)"
+          }
+        },
+        {
+          "name": "Get User by Email",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/email/{{userEmail}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "email", "{{userEmail}}"]
+            },
+            "description": "Get a user by their email address (Admin only)"
+          }
+        },
+        {
+          "name": "Check Email Availability",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/check-email/{{checkEmail}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "check-email", "{{checkEmail}}"]
+            },
+            "description": "Check if an email address is available for registration"
+          }
+        },
+        {
+          "name": "Check User Permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}/permissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}", "permissions"]
+            },
+            "description": "Check what permissions a user has"
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}", "profile"]
+            },
+            "description": "Get a user's profile information"
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}/deactivate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}", "deactivate"]
+            },
+            "description": "Deactivate a user account (Admin only)"
+          }
+        },
+        {
+          "name": "Bulk Create Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"users\": [\n    {\n      \"name\": \"Alice Johnson\",\n      \"email\": \"alice@example.com\",\n      \"role\": \"Editor\"\n    },\n    {\n      \"name\": \"Bob Smith\",\n      \"email\": \"bob@example.com\",\n      \"role\": \"Viewer\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "bulk"]
+            },
+            "description": "Create multiple users at once (Admin only)"
+          }
+        },
+        {
+          "name": "Export Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/export?format={{exportFormat}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "export"],
+              "query": [
+                {
+                  "key": "format",
+                  "value": "{{exportFormat}}"
+                }
+              ]
+            },
+            "description": "Export users in specified format (json, csv) (Admin only)"
+          }
+        },
+        {
+          "name": "Import Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"users\": [\n    {\n      \"name\": \"Imported User\",\n      \"email\": \"imported@example.com\",\n      \"role\": \"Viewer\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/import",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "import"]
+            },
+            "description": "Import users from external data (Admin only)"
+          }
         }
       ]
     }
@@ -601,8 +1067,38 @@
     },
     {
       "key": "searchQuery",
-      "value": "Node.js",
+      "value": "JavaScript",
       "description": "Search query for topic search"
+    },
+    {
+      "key": "resourceType",
+      "value": "article",
+      "description": "Type of resource for filtering"
+    },
+    {
+      "key": "urlPattern",
+      "value": "example.com",
+      "description": "URL pattern for resource search"
+    },
+    {
+      "key": "exportFormat",
+      "value": "json",
+      "description": "Export format (json, csv)"
+    },
+    {
+      "key": "userRole",
+      "value": "Editor",
+      "description": "User role for filtering"
+    },
+    {
+      "key": "userEmail",
+      "value": "john.doe@example.com",
+      "description": "User email address"
+    },
+    {
+      "key": "checkEmail",
+      "value": "newuser@example.com",
+      "description": "Email to check for availability"
     }
   ]
 }
