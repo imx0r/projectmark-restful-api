@@ -52,7 +52,7 @@ src/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/imx0r/projectmark-restful-api.git projectmark
    cd projectmark
    ```
 
