@@ -1,0 +1,608 @@
+{
+  "info": {
+    "_postman_id": "dynamic-kb-api-collection",
+    "name": "Dynamic Knowledge Base API",
+    "description": "Complete API collection for the Dynamic Knowledge Base system with topic versioning, hierarchical structures, user roles, and permissions.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Check if the API server is running"
+      }
+    },
+    {
+      "name": "Topics",
+      "item": [
+        {
+          "name": "Create Topic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}",
+                "description": "User ID for authentication"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Introduction to Node.js\",\n  \"content\": \"Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine.\",\n  \"parentTopicId\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/topics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics"]
+            },
+            "description": "Create a new topic in the knowledge base"
+          }
+        },
+        {
+          "name": "Get All Topics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics"]
+            },
+            "description": "Retrieve all topics"
+          }
+        },
+        {
+          "name": "Get Topic by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}"]
+            },
+            "description": "Retrieve a specific topic by its ID"
+          }
+        },
+        {
+          "name": "Update Topic",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Advanced Node.js Concepts\",\n  \"content\": \"Node.js is a powerful JavaScript runtime with advanced features like streams, clusters, and worker threads.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}"]
+            },
+            "description": "Update a topic (creates a new version)"
+          }
+        },
+        {
+          "name": "Delete Topic",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}"]
+            },
+            "description": "Delete a topic and all its versions"
+          }
+        },
+        {
+          "name": "Get Topic Versions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}/versions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}", "versions"]
+            },
+            "description": "Get all versions of a specific topic"
+          }
+        },
+        {
+          "name": "Get Specific Topic Version",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}/versions/{{version}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}", "versions", "{{version}}"]
+            },
+            "description": "Get a specific version of a topic"
+          }
+        },
+        {
+          "name": "Get Topic Tree",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}/tree",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}", "tree"]
+            },
+            "description": "Get the hierarchical tree structure starting from a topic"
+          }
+        },
+        {
+          "name": "Get Root Topics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/root",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "root"]
+            },
+            "description": "Get all root topics (topics without parents)"
+          }
+        },
+        {
+          "name": "Find Shortest Path",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/path/{{fromTopicId}}/{{toTopicId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "path", "{{fromTopicId}}", "{{toTopicId}}"]
+            },
+            "description": "Find the shortest path between two topics in the hierarchy"
+          }
+        },
+        {
+          "name": "Move Topic",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newParentId\": \"{{newParentTopicId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/{{topicId}}/move",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "{{topicId}}", "move"]
+            },
+            "description": "Move a topic to a new parent in the hierarchy"
+          }
+        },
+        {
+          "name": "Search Topics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/search?query={{searchQuery}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "{{searchQuery}}"
+                }
+              ]
+            },
+            "description": "Search topics by name and content"
+          }
+        },
+        {
+          "name": "Get Topic Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "stats"]
+            },
+            "description": "Get statistics about the topic hierarchy"
+          }
+        },
+        {
+          "name": "Validate Hierarchy",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/topics/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "topics", "validate"]
+            },
+            "description": "Validate the integrity of the topic hierarchy"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resources",
+      "item": [
+        {
+          "name": "Create Resource",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topicId\": \"{{topicId}}\",\n  \"url\": \"https://nodejs.org/en/docs/\",\n  \"description\": \"Official Node.js Documentation\",\n  \"type\": \"article\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resources",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources"]
+            },
+            "description": "Create a new resource associated with a topic"
+          }
+        },
+        {
+          "name": "Get All Resources",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources"]
+            },
+            "description": "Retrieve all resources"
+          }
+        },
+        {
+          "name": "Get Resource by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/{{resourceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "{{resourceId}}"]
+            },
+            "description": "Retrieve a specific resource by its ID"
+          }
+        },
+        {
+          "name": "Update Resource",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://nodejs.org/en/docs/guides/\",\n  \"description\": \"Node.js Guides and Tutorials\",\n  \"type\": \"article\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/{{resourceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "{{resourceId}}"]
+            },
+            "description": "Update a resource"
+          }
+        },
+        {
+          "name": "Delete Resource",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/{{resourceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "{{resourceId}}"]
+            },
+            "description": "Delete a resource"
+          }
+        },
+        {
+          "name": "Get Resources by Topic",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources/topic/{{topicId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources", "topic", "{{topicId}}"]
+            },
+            "description": "Get all resources associated with a specific topic"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"role\": \"Editor\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            },
+            "description": "Create a new user (Admin only)"
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            },
+            "description": "Retrieve all users (Admin only)"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}"]
+            },
+            "description": "Retrieve a specific user by ID"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Smith\",\n  \"email\": \"john.smith@example.com\",\n  \"role\": \"Admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}"]
+            },
+            "description": "Update a user (Admin only)"
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "{{adminUserId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{targetUserId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{targetUserId}}"]
+            },
+            "description": "Delete a user (Admin only)"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "description": "Base URL for the Dynamic Knowledge Base API"
+    },
+    {
+      "key": "userId",
+      "value": "user-1",
+      "description": "Current user ID for authentication"
+    },
+    {
+      "key": "adminUserId",
+      "value": "admin-1",
+      "description": "Admin user ID for administrative operations"
+    },
+    {
+      "key": "topicId",
+      "value": "topic-1",
+      "description": "Sample topic ID for testing"
+    },
+    {
+      "key": "resourceId",
+      "value": "resource-1",
+      "description": "Sample resource ID for testing"
+    },
+    {
+      "key": "targetUserId",
+      "value": "user-2",
+      "description": "Target user ID for user management operations"
+    },
+    {
+      "key": "fromTopicId",
+      "value": "topic-1",
+      "description": "Source topic ID for path finding"
+    },
+    {
+      "key": "toTopicId",
+      "value": "topic-2",
+      "description": "Destination topic ID for path finding"
+    },
+    {
+      "key": "newParentTopicId",
+      "value": "topic-3",
+      "description": "New parent topic ID for moving topics"
+    },
+    {
+      "key": "version",
+      "value": "1",
+      "description": "Topic version number"
+    },
+    {
+      "key": "searchQuery",
+      "value": "Node.js",
+      "description": "Search query for topic search"
+    }
+  ]
+}
