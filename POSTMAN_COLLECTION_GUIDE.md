@@ -26,16 +26,22 @@ The collection includes pre-configured variables:
 | Variable | Default Value | Description |
 |----------|---------------|-------------|
 | `baseUrl` | `http://localhost:3000` | API base URL |
-| `userId` | `user-1` | Current user ID for authentication |
-| `adminUserId` | `admin-1` | Admin user ID for admin operations |
-| `topicId` | `topic-1` | Sample topic ID for testing |
-| `resourceId` | `resource-1` | Sample resource ID for testing |
-| `targetUserId` | `user-2` | Target user for user management |
-| `fromTopicId` | `topic-1` | Source topic for path finding |
-| `toTopicId` | `topic-2` | Destination topic for path finding |
-| `newParentTopicId` | `topic-3` | New parent for moving topics |
-| `version` | `1` | Topic version number |
-| `searchQuery` | `Node.js` | Search query for topic search |
+| `userId` | `user-123` | Current user ID for authentication |
+| `adminUserId` | `admin-456` | Admin user ID for admin operations |
+| `topicId` | `topic-789` | Sample topic ID for testing |
+| `resourceId` | `resource-101` | Sample resource ID for testing |
+| `targetUserId` | `target-user-112` | Target user for user management |
+| `searchQuery` | `JavaScript` | Search query for topic search |
+| `parentTopicId` | `parent-topic-123` | Parent topic ID for hierarchy |
+| `sourceTopicId` | `source-topic-456` | Source topic for path finding |
+| `targetTopicId` | `target-topic-789` | Destination topic for path finding |
+| `resourceType` | `article` | Type of resource for filtering |
+| `urlPattern` | `example.com` | URL pattern for resource search |
+| `validateUrl` | `https://example.com` | URL to validate |
+| `exportFormat` | `json` | Export format (json, csv) |
+| `userRole` | `Editor` | User role for filtering |
+| `userEmail` | `john.doe@example.com` | User email address |
+| `checkEmail` | `newuser@example.com` | Email to check for availability |
 
 ### 3. Update Variables
 
@@ -91,12 +97,47 @@ Associate resources with topics using topicId.
 - **Get Topic Tree**: `GET /api/topics/{{topicId}}/tree`
 - **Get Root Topics**: `GET /api/topics/root`
 - **Move Topic**: `PUT /api/topics/{{topicId}}/move`
-- **Find Shortest Path**: `GET /api/topics/path/{{fromTopicId}}/{{toTopicId}}`
+- **Find Shortest Path**: `GET /api/topics/path/{{sourceTopicId}}/{{targetTopicId}}`
 
 #### Search and Statistics
-- **Search Topics**: `GET /api/topics/?query={{searchQuery}}`
+- **Search Topics**: `GET /api/topics?query={{searchQuery}}`
 - **Get Statistics**: `GET /api/topics/statistics`
 - **Validate Hierarchy**: `GET /api/topics/validate`
+
+#### Resource Operations
+- **Get All Resources**: `GET /api/resources`
+- **Get Resource by ID**: `GET /api/resources/{{resourceId}}`
+- **Update Resource**: `PUT /api/resources/{{resourceId}}`
+- **Delete Resource**: `DELETE /api/resources/{{resourceId}}`
+- **Get Resources by Topic**: `GET /api/resources/topic/{{topicId}}`
+- **Get Resources by Type**: `GET /api/resources/type/{{resourceType}}`
+- **Search Resources by URL**: `GET /api/resources/search/url?pattern={{urlPattern}}`
+- **Get Resource Statistics**: `GET /api/resources/statistics`
+- **Get Resources Grouped by Type**: `GET /api/resources/grouped`
+- **Validate All Resources**: `GET /api/resources/validate`
+- **Validate URL**: `GET /api/resources/validate-url/{{validateUrl}}`
+- **Check Resource Accessibility**: `GET /api/resources/{{resourceId}}/accessibility`
+- **Bulk Create Resources**: `POST /api/resources/bulk`
+- **Export Resources**: `GET /api/resources/export?format={{exportFormat}}`
+- **Import Resources**: `POST /api/resources/import`
+
+#### User Operations
+- **Get All Users**: `GET /api/users`
+- **Get User by ID**: `GET /api/users/{{userId}}`
+- **Update User**: `PUT /api/users/{{targetUserId}}`
+- **Delete User**: `DELETE /api/users/{{targetUserId}}`
+- **Get User Statistics**: `GET /api/users/statistics`
+- **Authenticate User**: `POST /api/users/authenticate`
+- **Get Users by Role**: `GET /api/users/role/{{userRole}}`
+- **Change User Role**: `POST /api/users/{{targetUserId}}/role`
+- **Get User by Email**: `GET /api/users/email/{{userEmail}}`
+- **Check Email Availability**: `GET /api/users/check-email/{{checkEmail}}`
+- **Check User Permissions**: `GET /api/users/{{targetUserId}}/permissions`
+- **Get User Profile**: `GET /api/users/{{targetUserId}}/profile`
+- **Deactivate User**: `POST /api/users/{{targetUserId}}/deactivate`
+- **Bulk Create Users**: `POST /api/users/bulk`
+- **Export Users**: `GET /api/users/export?format={{exportFormat}}`
+- **Import Users**: `POST /api/users/import`
 
 ### Step 4: Test Permissions
 
@@ -147,29 +188,68 @@ Each request includes this header. Update the `userId` variable to test differen
 3. Update a topic (creates new version)
 4. Retrieve topic tree
 5. Get topic versions
+6. Search topics by query
+7. Get topic statistics
 
 ### Scenario 2: Hierarchy Operations
 1. Create multiple levels of topics
 2. Move a topic to different parent
 3. Find shortest path between topics
 4. Validate hierarchy integrity
+5. Get root topics
+6. Test circular reference prevention
 
 ### Scenario 3: Resource Management
 1. Create resources for topics
 2. Update resource information
 3. Get resources by topic
-4. Delete resources
+4. Get resources by type
+5. Search resources by URL pattern
+6. Validate resource URLs
+7. Check resource accessibility
+8. Get resource statistics
+9. Export/import resources
+10. Bulk create resources
+11. Delete resources
 
-### Scenario 4: Permission Testing
+### Scenario 4: User Management
+1. Create users with different roles
+2. Update user information
+3. Get users by role
+4. Change user roles (Admin only)
+5. Get user by email
+6. Check email availability
+7. Authenticate users
+8. Check user permissions
+9. Get user profiles
+10. Deactivate users
+11. Export/import users
+12. Bulk create users
+13. Get user statistics
+
+### Scenario 5: Permission Testing
 1. Test as Admin user (full access)
 2. Test as Editor user (limited access)
 3. Test as Viewer user (read-only)
 4. Verify permission restrictions
+5. Test role-based endpoint access
+6. Test user profile access controls
 
-### Scenario 5: Search and Statistics
-1. Search topics by name/content
-2. Get hierarchy statistics
-3. Validate data integrity
+### Scenario 6: Advanced Operations
+1. Bulk operations (topics, resources, users)
+2. Data validation and integrity checks
+3. Export/import functionality
+4. URL validation and accessibility
+5. Statistics and analytics
+6. Search and filtering capabilities
+
+### Scenario 7: Error Handling
+1. Test invalid data inputs
+2. Test missing required fields
+3. Test permission violations
+4. Test non-existent resource access
+5. Test circular reference creation
+6. Test duplicate email registration
 
 ## 🐛 Troubleshooting
 
@@ -210,11 +290,18 @@ Each request includes this header. Update the `userId` variable to test differen
 - Hierarchy validation prevents circular references
 - Search is case-insensitive and searches both name and content
 - Statistics provide insights into the knowledge base structure
+- The collection covers all API functionality
+- Bulk operations support creating multiple entities at once
+- Export/import functionality supports JSON and CSV formats
+- URL validation checks both format and accessibility
+- Role-based permissions are enforced across all endpoints
+- Authentication uses the `x-user-id` header for simplicity
+- All endpoints include comprehensive error handling and validation
 
 ## 🔗 Related Documentation
 
 - [Main README](./README.md) - Complete project documentation
-- [API Documentation](./README.md#api-endpoints) - Detailed endpoint specifications
-- [Development Guide](./README.md#development) - Setup and development instructions
+- [API Documentation](./README.md#-api-endpoints) - Detailed endpoint specifications
+- [Development Guide](./README.md#-development) - Setup and development instructions
 
 Happy testing! 🚀
